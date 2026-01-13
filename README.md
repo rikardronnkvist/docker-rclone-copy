@@ -49,7 +49,7 @@ A few environment variables allow you to customize the behavior of the copy:
 * `TZ` set the [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to use for the cron and log `America/Argentina/Buenos_Aires`
 
 ```bash
-$ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COPY_SRC="/source" -e COPY_DEST="dest:path" -e TZ="America/Argentina/Buenos_Aires" -e CRON="0 0 * * *" -e  FORCE_COPY=1 ghcr.io/robinostlund/docker-rclone-copy:latest
+$ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COPY_SRC="/source" -e COPY_DEST="dest:path" -e TZ="America/Argentina/Buenos_Aires" -e CRON="0 0 * * *" -e  FORCE_COPY=1 ghcr.io/rikardronnkvist/docker-rclone-copy:latest
 ```
 
 See [rclone copy docs](https://rclone.org/commands/rclone_copy/) for source/dest syntax and additional options.
