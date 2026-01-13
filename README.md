@@ -1,32 +1,14 @@
 # docker-rclone-copy
-# Creds to bcardiff and robinostlund for the work for this docker container (this is a forked version)
 
-Docker image to perform a [rclone](http://rclone.org) copy based on a cron schedule, with [healthchecks.io](https://healthchecks.io) monitoring.
+### Creds to bcardiff and robinostlund for the work for this docker container (this is a forked version)
 
-rclone is a command line program to copy files and directories to and from:
-
-* Google Drive
-* Amazon S3
-* Openstack Swift / Rackspace cloud files / Memset Memstore
-* Dropbox
-* Google Cloud Storage
-* Amazon Drive
-* Microsoft OneDrive
-* Hubic
-* Backblaze B2
-* Yandex Disk
-* SFTP
-* FTP
-* HTTP
-* The local filesystem
-
+Docker image to perform a [rclone](http://rclone.org) copy based on a cron schedule.
 
 ## Usage
 
 ### Configure rclone
 
-rclone needs a configuration file where credentials to access different storage
-provider are kept.
+rclone needs a configuration file where credentials to access different storage provider are kept.
 
 By default, this image uses a file `/config/rclone.conf` and a mounted volume may be used to keep that information persisted.
 
@@ -53,3 +35,9 @@ $ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COP
 ```
 
 See [rclone copy docs](https://rclone.org/commands/rclone_copy/) for source/dest syntax and additional options.
+
+
+# How do I use it?
+* First I have [Nautical Backup](https://github.com/minituff/nautical-backup) running nightly between 02:00 and 03:00 on my docker hosts.
+* The enivonment variable SECONDARY_DEST_DIRS is pointing towards the same location for all hosts. 
+* Then I schedule [rdocker-rclone-copy](https://github.com/rikardronnkvist/docker-rclone-copy) to run at 03:00 and it copies all my new backups to [Jottacloud](http://jottacloud.com) with unlimited storage
