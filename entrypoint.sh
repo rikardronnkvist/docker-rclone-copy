@@ -8,48 +8,42 @@ then
   echo $TZ > /etc/timezone
 fi
 
-rm -f /tmp/sync.pid
+rm -f /tmp/copy.pid
 
-if [ -z "$SYNC_SRC" ] || [ -z "$SYNC_DEST" ]
+if [ -z "$COPY_SRC" ] || [ -z "$COPY_DEST" ]
 then
-  echo "INFO: No SYNC_SRC and SYNC_DEST found. Starting rclone config"
+  echo "INFO: No COPY_SRC and COPY_DEST found. Starting rclone config"
   rclone config $RCLONE_OPTS
-  echo "INFO: Define SYNC_SRC and SYNC_DEST to start sync process."
+  echo "INFO: Define COPY_SRC and COPY_DEST to start copy process."
 else
-  # SYNC_SRC and SYNC_DEST setup
-  # run sync either once or in cron depending on CRON
+  # COPY_SRC and COPY_DEST setup
+  # run copy either once or in cron depending on CRON
   if [ -z "$CRON" ]
   then
-    echo "INFO: No CRON setting found. Running sync once."
-    echo "INFO: Add CRON=\"0 0 * * *\" to perform sync every midnight"
-    /sync.sh
+    echo "INFO: No CRON setting found. Running copy once."
+    echo "INFO: Add CRON=\"0 0 * * *\" to perform copy every midnight"
+    /copy.sh
   else
-    if [ -z "$FORCE_SYNC" ]
+    if [ -z "$FORCE_COPY" ]
     then
-      echo "INFO: Add FORCE_SYNC=1 to perform a sync upon boot"
+      echo "INFO: Add FORCE_COPY=1 to perform a copy upon boot"
     else
-      /sync.sh
+      /copy.sh
     fi
 
     # Setup cron schedule
     crontab -d
-    echo "$CRON /sync.sh >>/tmp/sync.log 2>&1" > /tmp/crontab.tmp
-    if [ -z "$CRON_ABORT" ]
-    then
-      echo "INFO: Add CRON_ABORT=\"0 6 * * *\" to cancel outstanding sync at 6am"
-    else
-      echo "$CRON_ABORT /sync-abort.sh >>/tmp/sync.log 2>&1" >> /tmp/crontab.tmp
-    fi
+    echo "$CRON /copy.sh >>/tmp/copy.log 2>&1" > /tmp/crontab.tmp
     crontab /tmp/crontab.tmp
     rm /tmp/crontab.tmp
 
     # Start cron
     echo "INFO: Starting crond ..."
-    touch /tmp/sync.log
+    touch /tmp/copy.log
     touch /tmp/crond.log
     crond -b -l 0 -L /tmp/crond.log
     echo "INFO: crond started"
-    tail -F /tmp/crond.log /tmp/sync.log
+    tail -F /tmp/crond.log /tmp/copy.log
   fi
 fi
 

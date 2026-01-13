@@ -1,17 +1,14 @@
 FROM alpine:latest
 
-MAINTAINER Robin Ostlund <me@robinostlund.name>
-
 ENV INST_RCLONE_VERSION=current
 ENV ARCH=amd64
-ENV SYNC_SRC=
-ENV SYNC_DEST=
-ENV SYNC_OPTS=-v
+ENV COPY_SRC=
+ENV COPY_DEST=
+ENV COPY_OPTS=-v
 ENV RCLONE_OPTS="--config /config/rclone.conf"
 ENV CRON=
 ENV CRON_ABORT=
-ENV FORCE_SYNC=
-ENV CHECK_URL=
+ENV FORCE_COPY=
 ENV TZ=
 
 RUN apk -U add ca-certificates fuse wget dcron tzdata \
@@ -23,8 +20,7 @@ RUN apk -U add ca-certificates fuse wget dcron tzdata \
     && rm -r /tmp/rclone*
 
 COPY entrypoint.sh /
-COPY sync.sh /
-COPY sync-abort.sh /
+COPY copy.sh /
 
 VOLUME ["/config"]
 
