@@ -9,6 +9,7 @@ ENV RCLONE_OPTS="--config /config/rclone.conf"
 ENV CRON=
 ENV CRON_ABORT=
 ENV FORCE_COPY=
+ENV CHECK_URL=
 ENV TZ=
 
 RUN apk -U add ca-certificates fuse wget dcron tzdata \

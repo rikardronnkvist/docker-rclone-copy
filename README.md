@@ -29,6 +29,8 @@ A few environment variables allow you to customize the behavior of the copy:
 * `FORCE_COPY` set variable to perform a copy upon boot
 * `COPY_OPTS` additional options for `rclone copy` command. Defaults to `-v`
 * `TZ` set the [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to use for the cron and log `America/Argentina/Buenos_Aires`
+* `CHECK_URL` [healthchecks.io](https://healthchecks.io) url or similar cron monitoring to perform a `GET` after a successful copy
+
 
 ```bash
 $ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COPY_SRC="/source" -e COPY_DEST="dest:path" -e TZ="America/Argentina/Buenos_Aires" -e CRON="0 0 * * *" -e  FORCE_COPY=1 ghcr.io/rikardronnkvist/docker-rclone-copy:latest

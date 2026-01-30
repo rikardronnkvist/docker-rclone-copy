@@ -17,6 +17,13 @@ if test "$(rclone ls $COPY_SRC $RCLONE_OPTS)"; then
   echo "INFO: Starting rclone copy $COPY_SRC $COPY_DEST $RCLONE_OPTS $COPY_OPTS"
   rclone copy $COPY_SRC $COPY_DEST $RCLONE_OPTS $COPY_OPTS
 
+  if [ -z "$CHECK_URL" ]
+  then
+    echo "INFO: Define CHECK_URL with https://healthchecks.io to monitor sync job"
+  else
+    wget $CHECK_URL -O /dev/null
+  fi
+
 else
   echo "WARNING: Source directory is empty. Skipping copy command."
 fi
