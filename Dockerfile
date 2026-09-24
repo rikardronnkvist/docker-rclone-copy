@@ -12,7 +12,7 @@ ENV FORCE_COPY=
 ENV CHECK_URL=
 ENV TZ=
 
-RUN apk -U add ca-certificates fuse wget dcron tzdata \
+RUN apk -U add ca-certificates curl fuse wget dcron tzdata \
     && rm -rf /var/cache/apk/* \
     && cd /tmp \
     && wget -q http://downloads.rclone.org/rclone-${INST_RCLONE_VERSION}-linux-${ARCH}.zip \
