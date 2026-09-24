@@ -28,18 +28,12 @@ A few environment variables allow you to customize the behavior of the copy:
 * `CRON` crontab schedule `0 0 * * *` to perform copy every midnight
 * `FORCE_COPY` set variable to perform a copy upon boot
 * `COPY_OPTS` additional options for `rclone copy` command. Defaults to `-v`
-* `TZ` set the [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to use for the cron and log `America/Argentina/Buenos_Aires`
-* `CHECK_URL` [healthchecks.io](https://healthchecks.io) url or similar cron monitoring to perform a `GET` after a successful copy
+* `TZ` set the [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to use for the cron and log
+* `CHECK_URL` [healthchecks.io](https://healthchecks.io) url or similar cron monitoring to perform a `POST` before and after a copy
 
 
 ```bash
-$ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COPY_SRC="/source" -e COPY_DEST="dest:path" -e TZ="America/Argentina/Buenos_Aires" -e CRON="0 0 * * *" -e  FORCE_COPY=1 ghcr.io/rikardronnkvist/docker-rclone-copy:latest
+$ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e COPY_SRC="/source" -e COPY_DEST="dest:path" -e TZ="Europe/Stockholm" -e CRON="0 0 * * *" -e  FORCE_COPY=1 ghcr.io/rikardronnkvist/docker-rclone-copy:latest
 ```
 
 See [rclone copy docs](https://rclone.org/commands/rclone_copy/) for source/dest syntax and additional options.
-
-
-# How do I use it?
-* First I have [Nautical Backup](https://github.com/minituff/nautical-backup) running nightly between 02:00 and 03:00 on my docker hosts.
-* The enivonment variable SECONDARY_DEST_DIRS is pointing towards the same location for all hosts. 
-* Then I schedule [rdocker-rclone-copy](https://github.com/rikardronnkvist/docker-rclone-copy) to run at 03:00 and it copies all my new backups to [Jottacloud](http://jottacloud.com) with unlimited storage
